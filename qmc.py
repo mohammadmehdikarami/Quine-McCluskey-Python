@@ -1,3 +1,43 @@
+# Graph class
+class Graph(object):
+    def __init__(self, graph = None):
+        if graph == None:
+            graph = {}
+        self.__graph = graph
+    
+    def add_node(self, node):
+        if node not in self.__graph:
+            self.__graph[node] = []
+    
+    def add_edge(self, edge):
+        (node_1, node_2) = tuple(edge)
+        if node_1 in self.__graph:
+            self.__graph[node_1].append(node_2)
+        else:
+            self.__graph[node_1] = [node_2]
+    
+    def nodes(self):
+        return list(self.__graph.keys())
+
+    def edges(self):
+        edges = []
+        for node in self.__graph:
+            for neighbour in self.__graph[node]:
+                if (node, neighbour) not in edges:
+                    edges.append((node, neighbour))
+        return edges
+    
+    def __str__(self):
+        res = 'Nodes: '
+        for node in self.nodes():
+            res += str(node) + ' '
+        res += '\n'
+        res += 'Edges: '
+        for edge in self.edges():
+            res += str(edge) + ' '
+        return res
+    
+
 # Give boolean function variables
 while True:
     print('Enter boolean function variables:')
