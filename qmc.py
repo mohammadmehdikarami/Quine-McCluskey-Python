@@ -176,3 +176,13 @@ for (u, v) in graph.edges():
     nodes_used.add(u)
 prime_implicants = list(set(graph.nodes()) - nodes_used)
 print(prime_implicants)
+
+# Find prime implicants that should to use
+important_prime_implicants = []
+for n in graph.nodes():
+    true_pi = []
+    for p in prime_implicants:
+        if path_between_nodes(n, p):
+            true_pi.append(p)
+    if len(true_pi) == 1:
+        important_prime_implicants.append(true_pi[0])
