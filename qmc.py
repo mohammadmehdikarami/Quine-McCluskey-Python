@@ -145,3 +145,20 @@ graph = Graph()
 # Add minterms and don't cares to graph
 for n in minterms + dont_cares:
     graph.add_node(decimal_to_binary(n, num_of_variables))
+
+# Take two nodes, if only one bit difference, place '-' and make new node, create new edge between new node and first nodes
+nodes_add = graph.nodes()
+while len(nodes_add) > 0:
+    for_nodes = nodes_add
+    nodes_add = []
+    for node_one in for_nodes:
+        for node_two in for_nodes:
+            if number_of_char(node_one, '-') == number_of_char(node_two, '-'):
+                if difference_of_strings(node_one, node_two)[0] == 1:
+                    dif_of_str = difference_of_strings(node_one, node_two)
+                    graph.add_node(dif_of_str[1])
+                    graph.add_edge((node_one, dif_of_str[1]))
+                    graph.add_edge((node_two, dif_of_str[1]))
+                    nodes_add.append(dif_of_str[1])
+
+print(graph)
