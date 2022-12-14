@@ -1,3 +1,12 @@
+# Decimal to binary converter function
+def decimal_to_binary(number, num_of_bits):
+    binary = ''
+    while number > 0:
+        binary = str(number % 2) + binary
+        number = number // 2
+    binary = '0' * (num_of_bits - len(binary)) + binary
+    return binary
+
 # Graph class
 class Graph(object):
     def __init__(self, graph = None):
@@ -36,7 +45,6 @@ class Graph(object):
         for edge in self.edges():
             res += str(edge) + ' '
         return res
-    
 
 # Give boolean function variables
 while True:
@@ -108,3 +116,10 @@ while True:
         print('Try again!\n')
 num_of_dont_cares = len(dont_cares)
 print(num_of_dont_cares, dont_cares)
+
+# Create graph
+graph = Graph()
+
+# Add minterms and don't cares to graph
+for n in minterms + dont_cares:
+    graph.add_node(decimal_to_binary(n, num_of_variables))
