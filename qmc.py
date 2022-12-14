@@ -15,6 +15,20 @@ def number_of_char(string, char):
             counter += 1
     return counter
 
+# Function for find difference of two strings
+def difference_of_strings(string_one, string_two):
+    number_of_difference = 0
+    string = ''
+    for i in range(0, min(len(string_one), len(string_two))):
+        if string_one[i] == string_two[i]:
+            string += string_one[i]
+        else:
+            number_of_difference += 1
+            string += '-'
+    number_of_difference += abs(len(string_one) - len(string_two))
+    string += '+' * abs(len(string_one) - len(string_two))
+    return (number_of_difference, string)
+
 # Graph class
 class Graph(object):
     def __init__(self, graph = None):
@@ -27,11 +41,11 @@ class Graph(object):
             self.__graph[node] = []
     
     def add_edge(self, edge):
-        (node_1, node_2) = tuple(edge)
-        if node_1 in self.__graph:
-            self.__graph[node_1].append(node_2)
+        (node_one, node_two) = tuple(edge)
+        if node_one in self.__graph:
+            self.__graph[node_one].append(node_two)
         else:
-            self.__graph[node_1] = [node_2]
+            self.__graph[node_one] = [node_two]
     
     def nodes(self):
         return list(self.__graph.keys())
