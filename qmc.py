@@ -7,6 +7,14 @@ def decimal_to_binary(number, num_of_bits):
     binary = '0' * (num_of_bits - len(binary)) + binary
     return binary
 
+# Function for count number of character in string
+def number_of_char(string, char):
+    counter = 0
+    for c in string:
+        if c == char:
+            counter += 1
+    return counter
+
 # Graph class
 class Graph(object):
     def __init__(self, graph = None):
