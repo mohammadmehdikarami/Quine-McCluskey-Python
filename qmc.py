@@ -29,6 +29,14 @@ def difference_of_strings(string_one, string_two):
     string += '+' * abs(len(string_one) - len(string_two))
     return (number_of_difference, string)
 
+# Function for check path between two nodes
+def path_between_nodes(node_one, node_two):
+    for i in range(0, len(node_one)):
+        if node_one[i] != node_two[i]:
+            if node_two[i] != '-':
+                return False
+    return True
+
 # Graph class
 class Graph(object):
     def __init__(self, graph = None):
