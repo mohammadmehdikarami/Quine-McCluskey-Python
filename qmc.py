@@ -161,4 +161,10 @@ while len(nodes_add) > 0:
                     graph.add_edge((node_two, dif_of_str[1]))
                     nodes_add.append(dif_of_str[1])
 
-print(graph)
+# Find prime implicants
+prime_implicants = []
+nodes_used = set()
+for (u, v) in graph.edges():
+    nodes_used.add(u)
+prime_implicants = list(set(graph.nodes()) - nodes_used)
+print(prime_implicants)
