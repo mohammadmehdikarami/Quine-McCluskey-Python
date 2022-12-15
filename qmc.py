@@ -91,7 +91,6 @@ while True:
         continue
     break
 num_of_variables = len(variables)
-print(num_of_variables, variables)
 
 # Give boolean function minterms
 while True:
@@ -115,7 +114,6 @@ while True:
     except:
         print('Try again!\n')
 num_of_minterms = len(minterms)
-print(num_of_minterms, minterms)
 
 # Give boolean function don't cares
 while True:
@@ -145,7 +143,6 @@ while True:
     except:
         print('Try again!\n')
 num_of_dont_cares = len(dont_cares)
-print(num_of_dont_cares, dont_cares)
 
 # Create graph
 graph = Graph()
@@ -175,14 +172,67 @@ nodes_used = set()
 for (u, v) in graph.edges():
     nodes_used.add(u)
 prime_implicants = list(set(graph.nodes()) - nodes_used)
-print(prime_implicants)
 
 # Find prime implicants that should to use
 important_prime_implicants = []
-for n in graph.nodes():
+for n in minterms:
     true_pi = []
     for p in prime_implicants:
-        if path_between_nodes(n, p):
+        if path_between_nodes(decimal_to_binary(n, num_of_variables), p):
             true_pi.append(p)
     if len(true_pi) == 1:
         important_prime_implicants.append(true_pi[0])
+
+# Calculate answer
+fine_minterms = []
+for n in minterms:
+    for i in important_prime_implicants:
+        if path_between_nodes(decimal_to_binary(n, num_of_variables), i):
+            fine_minterms.append(n)
+            break
+
+bad_prime_implicants = list(set(prime_implicants) - set(important_prime_implicants))
+bad_minterms = list(set(minterms) - set(fine_minterms))
+
+petrick = []
+for m in bad_minterms:
+    mini_petrick = []
+    for p in bad_prime_implicants:
+        if path_between_nodes(decimal_to_binary(m, num_of_variables), p):
+            mini_petrick.append([p])
+    petrick.append(mini_petrick)
+
+product = [[]]
+if petrick != []:
+    product = petrick[0]
+    petrick.remove(petrick[0])
+for pet in petrick:
+    update_product = []
+    for pe in pet:
+        for pro in product:
+            p = pe[:] + pro[:]
+            p = list(set(p))
+            if p not in update_product:
+                update_product.append(p)
+    product = update_product
+
+min_of_out = num_of_minterms
+outputs = []
+for pro in product:
+    if len(important_prime_implicants + pro) < min_of_out:
+        outputs = [important_prime_implicants + pro]
+        min_of_out = len(important_prime_implicants + pro)
+    elif len(important_prime_implicants + pro) == min_of_out:
+        outputs.append(important_prime_implicants + pro)
+
+for out in outputs:
+    s = ''
+    for o in set(out):
+        for i in range(0, num_of_variables):
+            if o[i] != '-':
+                s += variables[i]
+            if o[i] == '0':
+                s += '\''
+        s += ' + '
+    s = s[0: -3]
+    print(s)
